@@ -3,9 +3,14 @@ package br.com.orangetalent05.pix
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
+import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
+@Table(uniqueConstraints = [UniqueConstraint(
+    name = "uk_chave_pix",
+    columnNames = ["chave"]
+)])
 @Entity
 class ChavePix(
 
@@ -25,7 +30,11 @@ class ChavePix(
     @field:NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    val tipoDeConta: TipoDeConta
+    val tipoDeConta: TipoDeConta,
+
+    @field:Valid
+    @Embedded
+    val conta: ContaAssociada
 ) {
 
     @Id

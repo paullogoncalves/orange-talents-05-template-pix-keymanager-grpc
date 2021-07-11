@@ -1,5 +1,6 @@
 package br.com.orangetalent05.integration.itau
 
+import br.com.orangetalent05.TipoDeConta
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
@@ -11,5 +12,5 @@ import io.micronaut.http.client.annotation.Client
 interface ItauClient {
 
     @Get("/api/v1/clientes/{clientId}/contas{?tipo}")
-    fun buscaPorTipo(@PathVariable clientId: String, @QueryValue tipo: String ): HttpResponse<Any>
+    fun buscaPorTipo(@PathVariable clientId: String, @QueryValue tipo: String): HttpResponse<DadosDaContaResponse>
 }
