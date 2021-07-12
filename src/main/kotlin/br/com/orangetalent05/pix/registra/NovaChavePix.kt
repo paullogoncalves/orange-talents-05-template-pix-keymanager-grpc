@@ -5,17 +5,21 @@ import br.com.orangetalent05.pix.ContaAssociada
 import br.com.orangetalent05.pix.TipoDeChave
 import br.com.orangetalent05.pix.TipoDeConta
 import io.micronaut.core.annotation.Introspected
+import org.hibernate.validator.constraints.br.CPF
 import java.util.*
+import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
 
+@ValidPixKey
 @Introspected
-class NovaChavePix(
+data class NovaChavePix(
     @field:NotBlank
     val clienteId: String?,
     @field:NotNull
     val tipo: TipoDeChave?,
-    @field:NotBlank
+    @field:Size(max = 77)
     val chave: String?,
     @field:NotNull
     val tipoDeConta: TipoDeConta?

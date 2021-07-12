@@ -20,12 +20,12 @@ class NovaChavePixService(
     private val LOGGER = LoggerFactory.getLogger(this::class.java)
 
     @Transactional
-    fun registra(@Valid novaChave: NovaChavePix): ChavePix {
+    fun registra(@Valid novaChave: NovaChavePix): ChavePix   {
 
         if (chaveRepo.existsByChave(novaChave.chave)) {
-            throw IllegalStateException("ja tem essa chave!")
-        }
+            println("deu erro")
 
+        }
         val itauResponse = itauClient.buscaPorTipo(novaChave.clienteId!!, novaChave.tipoDeConta!!.name)
         val conta = itauResponse.body()?.toEntity()?: throw IllegalStateException("Cliente não encontrado")
 

@@ -4,10 +4,13 @@ import br.com.orangetalent05.PixKeymanagerGrpcServiceGrpc
 import br.com.orangetalent05.RegistraChavePixRequest
 import br.com.orangetalent05.RegistraChavePixResponse
 import br.com.orangetalent05.integration.itau.ItauClient
+import br.com.orangetalent05.shared.grpc.ErrorHandler
 import io.grpc.stub.StreamObserver
+import java.lang.IllegalStateException
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@ErrorHandler
 @Singleton
 class RegistraChaveEndPoint(@Inject private val service: NovaChavePixService): PixKeymanagerGrpcServiceGrpc.PixKeymanagerGrpcServiceImplBase() {
 
@@ -24,10 +27,6 @@ class RegistraChaveEndPoint(@Inject private val service: NovaChavePixService): P
             .build())
 
         responseObserver?.onCompleted()
-
-
-
-
     }
 
 }
