@@ -22,4 +22,4 @@ data class DadosDaContaResponse(
 }
 
 data class InstituicaoResponse(val nome: String, val ispb: String)
-data class Titular(val id: String, val nome: String, val cpf: String)
+data class Titular(val nome: String, val cpf: String)

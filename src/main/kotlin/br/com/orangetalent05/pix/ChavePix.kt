@@ -24,8 +24,8 @@ class ChavePix(
     val tipo: TipoDeChave,
 
     @field:NotBlank
-    @Column(nullable = false, unique = true)
-    val chave: String,
+    @Column(nullable = false)
+    var chave: String,
 
     @field:NotNull
     @Enumerated(EnumType.STRING)
@@ -43,4 +43,33 @@ class ChavePix(
 
     @Column(nullable = false)
     val criadoEm: LocalDateTime = LocalDateTime.now()
+
+
+    override fun toString(): String {
+        return "ChavePix(clienteId=$clientId, tipo=$tipo, chave='$chave', tipoDeConta=$tipoDeConta, conta=$conta, id=$id, criadaEm=$criadoEm)"
+    }
+
+    /**
+     * Verifica se esta chave pertence a este cliente
+     */
+    fun pertenceAo(clienteId: UUID) = this.clientId.equals(clienteId)
+
+    /**
+     * Verifica se é chave uma aleatória
+     */
+    fun isAleatoria(): Boolean {
+        return tipo == TipoDeChave.ALEATORIA
+    }
+
+    /**
+     * Atualiza a valor da chave. Somente chave do tipo ALEATORIA pode
+     * ser alterado.
+     */
+    fun atualiza(chave: String): Boolean {
+        if (isAleatoria()) {
+            this.chave = chave
+            return true
+        }
+        return false
+    }
 }

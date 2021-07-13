@@ -20,8 +20,8 @@ class ExceptionHandlerResolver(@Inject private val handlers: List<ExceptionHandl
     fun resolve(e: Exception): ExceptionHandler<*> {
         val foundHandlers = handlers.filter { it.supports(e) }
 
-        if (foundHandlers.size > 1)
-            throw IllegalStateException("Too many handlers supporting the same exception '${e.javaClass.name}': $foundHandlers")
+//        if (foundHandlers.size > 1)
+            //throw IllegalStateException("Too many handlers supporting the same exception '${e.javaClass.name}': $foundHandlers")
 
         return foundHandlers.firstOrNull() ?: defaultHandler
     }

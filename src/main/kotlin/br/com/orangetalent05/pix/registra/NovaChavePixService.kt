@@ -3,6 +3,7 @@ package br.com.orangetalent05.pix.registra
 import br.com.orangetalent05.integration.itau.ItauClient
 import br.com.orangetalent05.pix.ChavePix
 import br.com.orangetalent05.pix.ChavePixRepository
+import br.com.orangetalent05.pix.exceptions.ChavePixExistenteException
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -21,9 +22,10 @@ class NovaChavePixService(
 
     @Transactional
     fun registra(@Valid novaChave: NovaChavePix): ChavePix   {
+        val chaves = chaveRepo.existsByChave(novaChave.chave)
 
         if (chaveRepo.existsByChave(novaChave.chave)) {
-            println("deu erro")
+            throw ChavePixExistenteException("Chave Pix '${novaChave.chave}' existente")
 
         }
         val itauResponse = itauClient.buscaPorTipo(novaChave.clienteId!!, novaChave.tipoDeConta!!.name)

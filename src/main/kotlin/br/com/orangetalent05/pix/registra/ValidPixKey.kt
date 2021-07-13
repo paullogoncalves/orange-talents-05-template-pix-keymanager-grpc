@@ -31,12 +31,14 @@ class ValidPixKeyValidator: javax.validation.ConstraintValidator<ValidPixKey, No
 
     override fun isValid(value: NovaChavePix?, context: javax.validation.ConstraintValidatorContext): Boolean {
 
+        val vlidado = value?.tipo?.valida(value.chave)
         // must be validated with @NotNull
         if (value?.tipo == null) {
             return true
         }
 
         val valid = value.tipo.valida(value.chave)
+        println("aqui")
         if (!valid) {
             // https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-custom-property-paths
             context.disableDefaultConstraintViolation()

@@ -33,14 +33,14 @@ enum class TipoDeChave {
             if (chave.isNullOrBlank()) {
                 return false
             }
+            return true
+//            println("Chegou aqui")
+//            return EmailValidator().run {
+//                initialize(null)
+//                isValid(chave, null)
+//            }
 
-            if (chave.equals("rafal.pontezup")) {
-                return false
-            }
-            return EmailValidator().run {
-                initialize(null)
-                isValid(chave, null)
-            }
+
         }
           },
     ALEATORIA {

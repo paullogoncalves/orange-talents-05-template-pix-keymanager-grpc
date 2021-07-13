@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@InterceptorBean(ErrorHandler::class)
+@Singleton
 class ExceptionHandlerInterceptor(@Inject private val resolver: ExceptionHandlerResolver): MethodInterceptor<BindableService, Any?> {
 
     private val LOGGER = LoggerFactory.getLogger(this::class.java)
@@ -20,7 +20,7 @@ class ExceptionHandlerInterceptor(@Inject private val resolver: ExceptionHandler
             return context.proceed()
         } catch (e: Exception) {
 
-            LOGGER.error("Handler the exception '${e.javaClass.name}' while processing the call: ${context.targetMethod}", e)
+            LOGGER.error("Veja a exception '${e.javaClass.name}' while processing the call: ${context.targetMethod}", e)
 
             @Suppress("UNCHECKED_CAST")
             val handler = resolver.resolve(e) as ExceptionHandler<Exception>

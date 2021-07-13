@@ -4,10 +4,9 @@ import br.com.orangetalent05.pix.ChavePix
 import br.com.orangetalent05.pix.ContaAssociada
 import br.com.orangetalent05.pix.TipoDeChave
 import br.com.orangetalent05.pix.TipoDeConta
+import br.com.orangetalent05.shared.validation.ValidUUID
 import io.micronaut.core.annotation.Introspected
-import org.hibernate.validator.constraints.br.CPF
 import java.util.*
-import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
@@ -16,6 +15,7 @@ import javax.validation.constraints.Size
 @Introspected
 data class NovaChavePix(
     @field:NotBlank
+    @field:ValidUUID
     val clienteId: String?,
     @field:NotNull
     val tipo: TipoDeChave?,
