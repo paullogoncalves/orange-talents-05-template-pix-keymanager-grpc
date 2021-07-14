@@ -31,13 +31,13 @@ class ValidPixKeyValidator: javax.validation.ConstraintValidator<ValidPixKey, No
 
     override fun isValid(value: NovaChavePix?, context: javax.validation.ConstraintValidatorContext): Boolean {
 
-        val vlidado = value?.tipo?.valida(value.chave)
+        //val vlidado = value?.tipo?.valida(value.chave, context)
         // must be validated with @NotNull
         if (value?.tipo == null) {
             return true
         }
 
-        val valid = value.tipo.valida(value.chave)
+        val valid = value.tipo.valida(value.chave, context)
         println("aqui")
         if (!valid) {
             // https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-custom-property-paths
@@ -60,20 +60,20 @@ class ValidPixKeyValidator: javax.validation.ConstraintValidator<ValidPixKey, No
  * - https://docs.micronaut.io/latest/guide/index.html#beanValidation
  * - https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-custom-property-paths
  */
-class ValidPixKeyValidatorUsingMicronautSupport: ConstraintValidator<ValidPixKey, NovaChavePix> {
+//class ValidPixKeyValidatorUsingMicronautSupport: ConstraintValidator<ValidPixKey, NovaChavePix> {
+//
+//    override fun isValid(
+//        value: NovaChavePix?,
+//        annotationMetadata: AnnotationValue<ValidPixKey>,
+//        context: ConstraintValidatorContext,
+//    ): Boolean {
+//
+//        // must be validated with @NotNull
+//        if (value?.tipo == null) {
+//            return true
+//        }
+//
+//        return value.tipo.valida(value.chave, context)
+//    }
 
-    override fun isValid(
-        value: NovaChavePix?,
-        annotationMetadata: AnnotationValue<ValidPixKey>,
-        context: ConstraintValidatorContext,
-    ): Boolean {
-
-        // must be validated with @NotNull
-        if (value?.tipo == null) {
-            return true
-        }
-
-        return value.tipo.valida(value.chave)
-    }
-
-}
+//}

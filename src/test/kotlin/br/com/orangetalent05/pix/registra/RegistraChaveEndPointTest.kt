@@ -96,6 +96,8 @@ internal class RegistraChaveEndPointTest(
         return Mockito.mock(ItauClient::class.java)
     }
 
+    
+
     @Factory
     class Clients {
         @Bean

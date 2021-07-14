@@ -1,14 +1,20 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "br.com.orangetalent05";
 option java_outer_classname = "PixKeymanagerGrpc";
-option objc_class_prefix = "HLW";
+
 
 package br.com.orangetalent05;
 
 service PixKeymanagerGrpcService {
   rpc registra(RegistraChavePixRequest) returns (RegistraChavePixResponse) {}
+
+}
+
+service PixKeymanagerRemoveGrpcService {
+
+  rpc remove(RemoveChavePixRequest) returns (RemoveChavePixResponse) {}
+
 }
 
 enum TipoDeChave {
@@ -39,3 +45,14 @@ message RegistraChavePixResponse {
   string clienteId = 1;
   string pixId     = 2;
 }
+
+message RemoveChavePixRequest {
+  string clientId = 2;
+  string pixId    = 1;
+}
+
+message RemoveChavePixResponse {
+  string clientId = 2;
+  string pixId    = 1;
+}
+

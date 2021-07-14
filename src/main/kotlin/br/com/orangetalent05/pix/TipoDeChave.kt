@@ -1,11 +1,16 @@
 package br.com.orangetalent05.pix
 
+
+
+
+
 import io.micronaut.validation.validator.constraints.EmailValidator
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator
+import javax.validation.ConstraintValidatorContext
 
 enum class TipoDeChave {
     CPF {
-        override fun valida(chave: String?): Boolean {
+        override fun valida(chave: String?, context: ConstraintValidatorContext): Boolean {
             if (chave.isNullOrBlank()) {
                 return false
             }
@@ -21,7 +26,7 @@ enum class TipoDeChave {
         }
         },
     CELULAR {
-        override fun valida(chave: String?): Boolean {
+        override fun valida(chave: String?, context: ConstraintValidatorContext): Boolean {
             if (chave.isNullOrBlank()) {
                 return false
             }
@@ -29,25 +34,25 @@ enum class TipoDeChave {
         }
             },
     EMAIL {
-        override fun valida(chave: String?): Boolean {
+        override fun valida(chave: String?, context: javax.validation.ConstraintValidatorContext): Boolean {
             if (chave.isNullOrBlank()) {
                 return false
             }
-            return true
-//            println("Chegou aqui")
-//            return EmailValidator().run {
-//                initialize(null)
-//                isValid(chave, null)
-//            }
+
+            println("Chegou aqui")
+            return EmailValidator().run {
+                initialize(null)
+                isValid(chave, context)
+            }
 
 
         }
           },
     ALEATORIA {
-        override fun valida(chave: String?): Boolean {
+        override fun valida(chave: String?, context: ConstraintValidatorContext): Boolean {
             return chave.isNullOrBlank()
         }
     };
 
-    abstract fun valida(chave: String?): Boolean
+    abstract fun valida(chave: String?, context: javax.validation.ConstraintValidatorContext): Boolean
 }
