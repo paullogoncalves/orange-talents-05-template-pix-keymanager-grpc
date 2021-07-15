@@ -2,6 +2,7 @@ package br.com.orangetalent05.pix.remove
 
 import br.com.orangetalent05.PixKeymanagerRemoveGrpcServiceGrpc
 import br.com.orangetalent05.RemoveChavePixRequest
+import br.com.orangetalent05.integration.bcb.BancoCentralClient
 import br.com.orangetalent05.pix.*
 import io.grpc.ManagedChannel
 import io.grpc.Status
@@ -10,12 +11,14 @@ import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Factory
 import io.micronaut.grpc.annotation.GrpcChannel
 import io.micronaut.grpc.server.GrpcServerChannel
+import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.mockito.Mockito
 import java.util.*
 
 @MicronautTest(transactional = false)
@@ -23,6 +26,8 @@ internal class RemoveChaveEndPointTest(
     val repo: ChavePixRepository,
     val grpcClient: PixKeymanagerRemoveGrpcServiceGrpc.PixKeymanagerRemoveGrpcServiceBlockingStub
     ) {
+
+    lateinit var bcbClient: BancoCentralClient
 
     lateinit var CHAVE_ATIVA: ChavePix
 
@@ -90,6 +95,11 @@ internal class RemoveChaveEndPointTest(
             assertEquals("Chave não encontrada", status.description)
         }
 
+    }
+
+    @MockBean(BancoCentralClient::class)
+    fun bcbClient(): BancoCentralClient {
+        return Mockito.mock(BancoCentralClient::class.java)
     }
 
     @Factory

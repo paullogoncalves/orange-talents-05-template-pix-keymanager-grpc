@@ -1,9 +1,12 @@
 package br.com.orangetalent05.pix.registra
 
+import br.com.orangetalent05.integration.bcb.BancoCentralClient
+import br.com.orangetalent05.integration.bcb.CreatePixRequest
 import br.com.orangetalent05.integration.itau.ItauClient
 import br.com.orangetalent05.pix.ChavePix
 import br.com.orangetalent05.pix.ChavePixRepository
 import br.com.orangetalent05.pix.exceptions.ChavePixExistenteException
+import io.micronaut.http.HttpStatus
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
@@ -16,6 +19,7 @@ import javax.validation.Valid
 class NovaChavePixService(
     @Inject val itauClient: ItauClient,
     @Inject val chaveRepo: ChavePixRepository,
+    @Inject val bancoCentralClient: BancoCentralClient
 ) {
 
     private val LOGGER = LoggerFactory.getLogger(this::class.java)
@@ -34,6 +38,17 @@ class NovaChavePixService(
         val chave = novaChave.toEntity(conta)
         chaveRepo.save(chave)
         LOGGER.info("Foi gravado no banco a chave: ${chave.chave}")
+
+        val requestBcb = CreatePixRequest.of(chave).also {
+            LOGGER.info("Registrando chave no banco central $it")
+        }
+
+        val responseBcb = bancoCentralClient.insert(requestBcb)
+        if (responseBcb.status != HttpStatus.CREATED) {
+            throw IllegalStateException("Erro ao cria chave pix no Banco central")
+        }
+
+        chave.atualiza(responseBcb.body().key)
 
         return chave
     }
