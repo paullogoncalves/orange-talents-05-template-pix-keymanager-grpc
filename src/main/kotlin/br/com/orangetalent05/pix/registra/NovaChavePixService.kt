@@ -26,7 +26,6 @@ class NovaChavePixService(
 
     @Transactional
     fun registra(@Valid novaChave: NovaChavePix): ChavePix   {
-        val chaves = chaveRepo.existsByChave(novaChave.chave)
 
         if (chaveRepo.existsByChave(novaChave.chave)) {
             throw ChavePixExistenteException("Chave Pix '${novaChave.chave}' existente")

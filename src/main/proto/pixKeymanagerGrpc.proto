@@ -3,6 +3,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_outer_classname = "PixKeymanagerGrpc";
 
+import "google/protobuf/timestamp.proto";
 
 package br.com.orangetalent05;
 
@@ -14,6 +15,18 @@ service PixKeymanagerGrpcService {
 service PixKeymanagerRemoveGrpcService {
 
   rpc remove(RemoveChavePixRequest) returns (RemoveChavePixResponse) {}
+
+}
+
+service PixKeymanagerConsultaGrpcService {
+
+  rpc busca(ConsultaChavePixRequest) returns (ConsultaChavePixResponse) {}
+
+}
+
+service PixKeymanagerListaGrpcService {
+
+  rpc lista(ListaChavesPixRequest) returns (ListaChavesPixResponse) {}
 
 }
 
@@ -56,3 +69,56 @@ message RemoveChavePixResponse {
   string pixId    = 1;
 }
 
+message ConsultaChavePixRequest {
+  message FiltroPorPixId {
+    string clienteId = 1;
+    string pixId     = 2;
+  }
+
+  oneof filtro {
+    FiltroPorPixId pixId  = 1;
+    string chave          = 2;
+  }
+}
+
+message ConsultaChavePixResponse {
+
+  message ChavePix {
+
+    message ContaInfo {
+      TipoDeConta tipo     = 1;
+      string instituicao   = 2; /** ITAU UNIBANCO */
+      string nomeDoTitular = 3;
+      string cpfDoTitular  = 4;
+      string agencia       = 5;
+      string numeroDaConta = 6;
+    }
+
+    TipoDeChave tipo        = 1;
+    string chave            = 2;
+    ContaInfo conta         = 3;
+    google.protobuf.Timestamp criadaEm = 4;
+  }
+
+  string clienteId = 1;
+  string pixId     = 2;
+  ChavePix chave   = 3;
+}
+
+message ListaChavesPixRequest{
+  string clientId = 1;
+}
+
+message ListaChavesPixResponse {
+
+  message ChavePix {
+    string pixId            = 1;
+    TipoDeChave tipo        = 2;
+    string chave            = 3;
+    TipoDeConta tipoDeConta = 4;
+    google.protobuf.Timestamp criadaEm = 5;
+  }
+
+  string clienteId         = 1;
+  repeated ChavePix chaves = 2;
+}
