@@ -97,10 +97,10 @@ internal class ConsultaDadosEndPointTest(
             assertEquals(Status.INVALID_ARGUMENT.code, status.code)
             assertEquals("Dados inválidos", status.description)
             assertThat(violations(), containsInAnyOrder(
-                Pair("pixId", "must not be blank"),
-                Pair("clienteId", "must not be blank"),
-                Pair("pixId", "não é um formato válido de UUID"),
                 Pair("clienteId", "não é um formato válido de UUID"),
+                Pair("pixId", "não é um formato válido de UUID"),
+                Pair("pixId", "não deve estar em branco"),
+                Pair("clienteId", "não deve estar em branco"),
             ))
         }
     }
